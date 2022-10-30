@@ -2,6 +2,7 @@ import { useHistory } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import axios from "axios";
+import swal from 'sweetalert2';
 function ReviewFeedBack() {
   let history = useHistory();
   let dispatch = useDispatch();
@@ -39,7 +40,7 @@ function ReviewFeedBack() {
 
   const handleSubmit = () => {
     console.log("In HandleSubmit");
-    alert("Thank you for the feedback.Back to home page");
+    // alert("Thank you for the feedback.Back to home page");
 
     axios({
       method: "POST",
@@ -52,12 +53,25 @@ function ReviewFeedBack() {
       .catch((error) => {
         console.log("error sending feedback", error);
       });
+      swal.fire({
+        title:'Thank you for your feedback. Would you like to return to homepage? ',
+        showCancelButton: true,
+        confirmButtonText: 'Yes',
+        denyButtonText: `Cancel`,
+      })
 
     history.push("/");
   };
 
   const handleNewSubmission = () => {
-    alert("Back to home page to fill out new feedback");
+    // alert("Back to home page to fill out new feedback");
+
+    swal.fire({
+      title:'Submit a new feedback',
+      showCancelButton: true,
+      confirmButtonText: 'Yes',
+      denyButtonText: `Cancel`,
+    })
     history.push("/");
   };
 
@@ -74,7 +88,7 @@ function ReviewFeedBack() {
         <li>Comment: {newReviewFeedback.comments}</li>
       </ul>
       <button onClick={handleSubmit}>Submit</button>
-      <h5>Or</h5>
+      <h5>OR</h5>
       <br />
       <button onClick={handleNewSubmission}>Fill out new feedback</button>
     </>
