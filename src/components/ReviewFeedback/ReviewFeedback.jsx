@@ -1,18 +1,84 @@
 import { useHistory } from "react-router-dom";
-import {useSelector} from 'react-redux';
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import axios from "axios";
+function ReviewFeedBack() {
+  let history = useHistory();
+  let dispatch = useDispatch();
+  // let reviewFeedback = useSelector((store) =>{
+  //     return store.reviewFeedback
+  // })
 
-function ReviewFeedBack(allFeedbacks){
+  const feeling = useSelector((store) => {
+    return store.feelings;
+  });
 
-        let history = useHistory();
-        let reviewFeedback = useSelector((store) =>{
-            return store.reviewFeedback
-        })
+  const understanding = useSelector((store) => {
+    return store.understanding;
+  });
 
+  const supported = useSelector((store) => {
+    return store.support;
+  });
 
+  const comments = useSelector((store) => {
+    return store.comment;
+  });
 
-    return(
-        <h2>testing feedback</h2>
-    )
+  const newReviewFeedback = {
+    feeling,
+    understanding,
+    supported,
+    comments,
+  };
+
+  dispatch({
+    type: "SET_REVIEW_FEEDBACK",
+    payload: newReviewFeedback,
+  });
+
+  const handleSubmit = () => {
+    console.log("In HandleSubmit");
+    alert("Thank you for the feedback.Back to home page");
+
+    axios({
+      method: "POST",
+      url: "/feedback",
+      data: newReviewFeedback,
+    })
+      .then((res) => {
+        console.log("feedback sent to server", res);
+      })
+      .catch((error) => {
+        console.log("error sending feedback", error);
+      });
+
+    history.push("/");
+  };
+
+  const handleNewSubmission = () => {
+    alert("Back to home page to fill out new feedback");
+    history.push("/");
+  };
+
+  return (
+    <>
+      <h2>Review Feedback</h2>
+      <ul>
+        <li>Feeling: {newReviewFeedback.feeling}</li>
+        <br />
+        <li>Understanding: {newReviewFeedback.understanding}</li>
+        <br />
+        <li>Support: {newReviewFeedback.supported}</li>
+        <br />
+        <li>Comment: {newReviewFeedback.comments}</li>
+      </ul>
+      <button onClick={handleSubmit}>Submit</button>
+      <h5>Or</h5>
+      <br />
+      <button onClick={handleNewSubmission}>Fill out new feedback</button>
+    </>
+  );
 }
 
 export default ReviewFeedBack;

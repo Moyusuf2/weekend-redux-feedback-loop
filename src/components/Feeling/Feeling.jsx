@@ -21,7 +21,10 @@ function Feeling() {
   return (
     <>
       <h2>How are you feeling today</h2>
-      <label htmlFor="feelingInput">Feeling?</label>
+
+      <label htmlFor="feedbackInput" className="input">
+        Feeling?
+      </label>
       <br />
       <input
         type="number"
@@ -32,7 +35,7 @@ function Feeling() {
         }}
         value={feeling}
       />
-      <button onClick={feelingHandle}>NEXT</button>
+      <button className="button-16" onClick={feelingHandle}>NEXT</button>
     </>
   );
 }
