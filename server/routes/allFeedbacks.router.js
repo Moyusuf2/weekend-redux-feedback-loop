@@ -16,8 +16,8 @@ router.post('/', (req,res)=>{
     const sqlParams = [
         feedback.feeling,
         feedback.understanding, 
-        feedback.support,
-        feedback.comment]
+        feedback.supported,
+        feedback.comments]
 
     pool.query(sqlText,sqlParams)
         .then(dbRes => {
